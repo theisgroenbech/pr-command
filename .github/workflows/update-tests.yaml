@@ -11,3 +11,5 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
     - uses: ./.github/command
+      with:
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}

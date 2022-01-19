@@ -1,6 +1,9 @@
 name: PrCommand
 description: "hi"
-
+inputs:
+  TOKEN:
+    description: "..."
+    required: true
 runs:
   using: "composite"
   steps:
@@ -14,7 +17,7 @@ runs:
   # Put rocket on the comment to mark that it has started adding screenshots
     - uses: actions/github-script@v5
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ inputs.TOKEN }}
         script: |
           github.rest.reactions.createForIssueComment({
             owner: context.repo.owner,

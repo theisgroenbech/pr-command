@@ -61,23 +61,22 @@ runs:
       shell: bash
       run: ${{ inputs.COMMAND }}
 
-    - run: ls -la
+    - name: commit
       shell: bash
-#    - name: commit
-#      run: |
-#        git config user.name siteimprove-builduser
-#        git config user.email siteimprove-builduser@siteimprove.com
-#        git add .
-#        git commit -m "Update screenshots" || true
-#        git push
-#    # Put a hooray on the comment to mark that it has been updated
-#    - uses: actions/github-script@v5
-#      with:
-#        github-token: ${{ secrets.BUILDUSER_TOKEN }}
-#        script: |
-#          github.rest.reactions.createForIssueComment({
-#            owner: context.repo.owner,
-#            repo: context.repo.repo,
-#            comment_id: context.payload.comment.id,
-#            content: 'hooray'
-#          });
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add .
+        git commit -m ${{ inputs.COMMIT_MESSAGE }} || true
+        git push
+    # Put a hooray on the comment to mark that it has been updated
+    - uses: actions/github-script@v5
+      with:
+        github-token: ${{ inputs.TOKEN }}
+        script: |
+          github.rest.reactions.createForIssueComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            comment_id: context.payload.comment.id,
+            content: 'hooray'
+          });

@@ -14,3 +14,4 @@ jobs:
       with:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
         COMMAND: echo "hi" > hi.txt
+        COMMIT_MESSAGE: "Pretty cool commit"

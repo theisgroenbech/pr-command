@@ -49,8 +49,7 @@ runs:
         repository: ${{ fromJSON(steps.get-pr.outputs.result).head.repo.full_name }}
         ref: ${{ fromJSON(steps.get-pr.outputs.result).head.ref }}
         token: ${{ inputs.TOKEN }}
-    - run: ls -la
-      shell: bash
+
 #    - name: write-token
 #      env:
 #        NPM_GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
@@ -58,10 +57,12 @@ runs:
 #        echo "@siteimprove:registry=https://npm.pkg.github.com" > .npmrc
 #        echo "//npm.pkg.github.com/:_authToken=${NPM_GITHUB_TOKEN}" >> .npmrc
 #
-#    - name: update screenshots
-#      run: |
-#        make docker-regression-update
-#
+    - name: run stuff
+      shell: bash
+      run: ${{ inputs.COMMAND }}
+
+    - run: ls -la
+      shell: bash
 #    - name: commit
 #      run: |
 #        git config user.name siteimprove-builduser

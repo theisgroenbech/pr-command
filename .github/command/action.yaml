@@ -9,16 +9,17 @@ runs:
   steps:
     - run: |
         if [[ "${{github.event.issue.pull_request && contains(github.event.comment.body, inputs.PR_COMMAND)}}" == "false" ]]; then
-          echo "SHOULD_RUN=false" >> $GITHUB_ENV
+          echo ::set-output name=should_run::false
         else
-          echo "SHOULD_RUN=true" >> $GITHUB_ENV
+          echo ::set-output name=should_run::true
         fi
         echo ${{env.SHOULD_RUN}}
+      id: check
       shell: bash
 
   # Put rocket on the comment to mark that it has started adding screenshots
     - uses: actions/github-script@v5
-      if: ${{ env.SHOULD_RUN == true }}
+      if: ${{ steps.check.outputs.should_run == true }}
       with:
         github-token: ${{ inputs.TOKEN }}
         script: |

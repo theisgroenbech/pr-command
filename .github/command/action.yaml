@@ -10,7 +10,7 @@ runs:
     - run: |
         if [[ "${{github.event.issue.pull_request && contains(github.event.comment.body, '!pr pretty cool')}}" == "false" ]]; then
           echo false
-          exit 0
+          exit 1
         fi
       shell: bash
 

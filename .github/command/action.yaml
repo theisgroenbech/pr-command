@@ -67,7 +67,7 @@ runs:
         git config user.name github-actions
         git config user.email github-actions@github.com
         git add .
-        git commit -m ${{ inputs.COMMIT_MESSAGE }} || true
+        git commit -m "${{ inputs.COMMIT_MESSAGE }}" || true
         git push
     # Put a hooray on the comment to mark that it has been updated
     - uses: actions/github-script@v5

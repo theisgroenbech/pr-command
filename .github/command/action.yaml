@@ -8,7 +8,7 @@ runs:
   using: "composite"
   steps:
     - run: |
-        if [[ "${{github.event.issue.pull_request && contains(github.event.comment.body, '!pr update-tests')}}" == "false" ]]; then
+        if [[ "${{github.event.issue.pull_request && contains(github.event.comment.body, "${{ inputs.PR_COMMAND }}")}}" == "false" ]]; then
           echo false
           exit 0
         fi

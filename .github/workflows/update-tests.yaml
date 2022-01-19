@@ -6,6 +6,6 @@ on:
 
 jobs:
   update_screenshots:
-    runs-on: self-hosted
+#    runs-on: self-hosted
     steps:
     - uses: ./.github/command

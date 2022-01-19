@@ -12,16 +12,16 @@ runs:
       shell: bash
 
   # Put rocket on the comment to mark that it has started adding screenshots
-#    - uses: actions/github-script@v5
-#      with:
-#        github-token: ${{ secrets.BUILDUSER_TOKEN }}
-#        script: |
-#          github.rest.reactions.createForIssueComment({
-#            owner: context.repo.owner,
-#            repo: context.repo.repo,
-#            comment_id: context.payload.comment.id,
-#            content: 'rocket'
-#          });
+    - uses: actions/github-script@v5
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          github.rest.reactions.createForIssueComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            comment_id: context.payload.comment.id,
+            content: 'rocket'
+          });
 #    # https://github.com/actions/checkout/issues/331
 #    - uses: actions/github-script@v5
 #      id: get-pr

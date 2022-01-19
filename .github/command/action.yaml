@@ -10,6 +10,7 @@ runs:
           exit 0
         fi
       shell: bash
+
   # Put rocket on the comment to mark that it has started adding screenshots
 #    - uses: actions/github-script@v5
 #      with:

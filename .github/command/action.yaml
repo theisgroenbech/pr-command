@@ -8,7 +8,7 @@ runs:
   using: "composite"
   steps:
     - run: |
-        if [[ "${{github.event.issue.pull_request && contains(github.event.comment.body, "${{ inputs.PR_COMMAND }}")}}" == "false" ]]; then
+        if [[ "${{github.event.issue.pull_request && contains(github.event.comment.body, '${{ inputs.PR_COMMAND }}')}}" == "false" ]]; then
           echo false
           exit 0
         fi
@@ -50,13 +50,6 @@ runs:
         ref: ${{ fromJSON(steps.get-pr.outputs.result).head.ref }}
         token: ${{ inputs.TOKEN }}
 
-#    - name: write-token
-#      env:
-#        NPM_GITHUB_TOKEN: ${{ secrets.NPM_GITHUB_TOKEN }}
-#      run: |
-#        echo "@siteimprove:registry=https://npm.pkg.github.com" > .npmrc
-#        echo "//npm.pkg.github.com/:_authToken=${NPM_GITHUB_TOKEN}" >> .npmrc
-#
     - name: run stuff
       shell: bash
       run: ${{ inputs.COMMAND }}
@@ -79,4 +72,16 @@ runs:
             repo: context.repo.repo,
             comment_id: context.payload.comment.id,
             content: 'hooray'
+          });
+    - name: Failure
+      if: ${{ github.action_status == 'failure' }}
+      uses: actions/github-script@v5
+      with:
+        github-token: ${{ inputs.TOKEN }}
+        script: |
+          github.rest.reactions.createForIssueComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            comment_id: context.payload.comment.id,
+            content: 'confused'
           });

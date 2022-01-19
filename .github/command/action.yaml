@@ -6,7 +6,6 @@ inputs:
     required: true
 runs:
   using: "composite"
-  if: false
   steps:
     - run: |
         if [[ "${{github.event.issue.pull_request && contains(github.event.comment.body, inputs.PR_COMMAND)}}" == "false" ]]; then
@@ -14,7 +13,6 @@ runs:
         else
           echo ::set-output name=should_run::true
         fi
-        echo ${{env.SHOULD_RUN}}
       id: check
       shell: bash
 
@@ -32,6 +30,7 @@ runs:
           });
 #    # https://github.com/actions/checkout/issues/331
     - uses: actions/github-script@v5
+      if: ${{ steps.check.outputs.should_run == 'true' }}
       id: get-pr
       with:
         script: |
@@ -49,6 +48,7 @@ runs:
             core.setFailed(`Request failed with error ${err}`)
           }
     - uses: actions/checkout@v2
+      if: ${{ steps.check.outputs.should_run == 'true' }}
       with:
         # Use the branch name from the PR step
         repository: ${{ fromJSON(steps.get-pr.outputs.result).head.repo.full_name }}
@@ -56,10 +56,12 @@ runs:
         token: ${{ inputs.TOKEN }}
 
     - name: run stuff
+      if: ${{ steps.check.outputs.should_run == 'true' }}
       shell: bash
       run: ${{ inputs.COMMAND }}
 
     - name: commit
+      if: ${{ steps.check.outputs.should_run == 'true' }}
       shell: bash
       run: |
         git config user.name github-actions
@@ -69,6 +71,7 @@ runs:
         git push
     # Put a hooray on the comment to mark that it has been updated
     - uses: actions/github-script@v5
+      if: ${{ steps.check.outputs.should_run == 'true' }}
       with:
         github-token: ${{ inputs.TOKEN }}
         script: |
@@ -79,7 +82,7 @@ runs:
             content: 'hooray'
           });
     - name: Failure
-      if: ${{ github.action_status == 'failure' }}
+      if: ${{ github.action_status == 'failure' && steps.check.outputs.should_run == 'true' }}
       uses: actions/github-script@v5
       with:
         github-token: ${{ inputs.TOKEN }}

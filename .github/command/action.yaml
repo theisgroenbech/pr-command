@@ -82,7 +82,7 @@ runs:
             content: 'hooray'
           });
     - name: Failure
-      if: ${{ github.action_status == 'failure' && steps.check.outputs.should_run == 'true' }}
+      if: ${{ failure() && steps.check.outputs.should_run == 'true' }}
       uses: actions/github-script@v5
       with:
         github-token: ${{ inputs.TOKEN }}

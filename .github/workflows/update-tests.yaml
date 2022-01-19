@@ -6,6 +6,6 @@ on:
 
 jobs:
   update_screenshots:
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
     steps:
     - uses: ./.github/command

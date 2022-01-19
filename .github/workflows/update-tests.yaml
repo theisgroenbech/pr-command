@@ -1,0 +1,11 @@
+name: Update visual regression test screenshots
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  update_screenshots:
+    runs-on: self-hosted
+    steps:
+    - uses: ./.github/command

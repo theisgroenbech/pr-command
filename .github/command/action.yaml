@@ -19,7 +19,7 @@ runs:
 
   # Put rocket on the comment to mark that it has started adding screenshots
     - uses: actions/github-script@v5
-      if: ${{ steps.check.outputs.should_run == true }}
+      if: ${{ steps.check.outputs.should_run == 'true' }}
       with:
         github-token: ${{ inputs.TOKEN }}
         script: |

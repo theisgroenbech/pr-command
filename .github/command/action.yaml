@@ -13,6 +13,7 @@ runs:
         else
           echo "SHOULD_RUN=true" >> $GITHUB_ENV
         fi
+        echo ${{env.SHOULD_RUN}}
       shell: bash
 
   # Put rocket on the comment to mark that it has started adding screenshots

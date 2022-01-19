@@ -5,8 +5,8 @@ runs:
   using: "composite"
   steps:
     - run: |
-        if [[ "${{github.event.issue.pull_request && contains(github.event.comment.body, '!pr update-tests')}}" != "" ]]; then
-          echo hey
+        if [[ "${{github.event.issue.pull_request && contains(github.event.comment.body, '!pr update-tests')}}" == "false" ]]; then
+          echo false
           exit 0
         fi
       shell: bash

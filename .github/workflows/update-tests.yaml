@@ -13,5 +13,5 @@ jobs:
     - uses: ./.github/command
       with:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        COMMAND: echo "hi" > hi.txt
+        COMMAND: echo "hi2" >> hi.txt
         COMMIT_MESSAGE: "Pretty cool commit"

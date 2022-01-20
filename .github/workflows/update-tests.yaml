@@ -12,9 +12,9 @@ jobs:
       uses: actions/checkout@v2
     - uses: ./.github/command
       with:
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PR_COMMENT: !pr pretty cool
-        BASH_COMMAND: |
+        token: ${{ secrets.GITHUB_TOKEN }}
+        pr-comment: "!pr pretty cool"
+        run: |
           echo "hi2" >> hi.txt
           echo "hi3" >> hi.txt
-        COMMIT_MESSAGE: Pretty cool commit
+        commit-message: Pretty cool commit

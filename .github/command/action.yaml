@@ -1,23 +1,23 @@
 name: Pull Request command
-description: "hi"
+description: "pr-command is an action that enables you to run commands on your pull requests using comments."
 inputs:
-  TOKEN:
+  token:
     description: "Authentication token for GitHub repository"
     required: true
-  PR_COMMENT:
-    description: "The comment that the bot should react on"
+  pr-comment:
+    description: "Comment that the bot should react on"
     required: true
-  BASH_COMMAND:
-    description: "The bash command to be run when the bot is triggered"
+  run:
+    description: "Bash command to be run when the bot is triggered"
     required: true
-  COMMIT_MESSAGE:
-    description: "The commit message that the bot should use when committing"
+  commit-message:
+    description: "Commit message to be used when committing"
     required: true
 runs:
   using: "composite"
   steps:
     - run: |
-        if [[ "${{github.event.issue.pull_request && contains(github.event.comment.body, inputs.PR_COMMENT)}}" == "false" ]]; then
+        if [[ "${{github.event.issue.pull_request && contains(github.event.comment.body, inputs.pr-comment)}}" == "false" ]]; then
           echo ::set-output name=should_run::false
         else
           echo ::set-output name=should_run::true
@@ -30,7 +30,7 @@ runs:
       uses: actions/github-script@v5
       if: ${{ steps.check.outputs.should_run == 'true' }}
       with:
-        github-token: ${{ inputs.TOKEN }}
+        github-token: ${{ inputs.token }}
         script: |
           github.rest.reactions.createForIssueComment({
             owner: context.repo.owner,
@@ -67,12 +67,12 @@ runs:
         # Use the branch name from the PR step
         repository: ${{ fromJSON(steps.get-pr.outputs.result).head.repo.full_name }}
         ref: ${{ fromJSON(steps.get-pr.outputs.result).head.ref }}
-        token: ${{ inputs.TOKEN }}
+        token: ${{ inputs.token }}
 
     - name: Run command
       if: ${{ steps.check.outputs.should_run == 'true' }}
       shell: bash
-      run: ${{ inputs.BASH_COMMAND }}
+      run: ${{ inputs.run }}
 
     - name: Commit changes (if any)
       if: ${{ steps.check.outputs.should_run == 'true' }}
@@ -81,7 +81,7 @@ runs:
         git config user.name github-actions
         git config user.email 41898282+github-actions[bot]@users.noreply.github.com
         git add .
-        git commit -m "${{ inputs.COMMIT_MESSAGE }}" || true
+        git commit -m "${{ inputs.commit-message }}" || true
         git push
 
     # Put a hooray on the comment to mark that it has been updated
@@ -89,7 +89,7 @@ runs:
       uses: actions/github-script@v5
       if: ${{ steps.check.outputs.should_run == 'true' }}
       with:
-        github-token: ${{ inputs.TOKEN }}
+        github-token: ${{ inputs.token }}
         script: |
           github.rest.reactions.createForIssueComment({
             owner: context.repo.owner,
@@ -103,7 +103,7 @@ runs:
       if: ${{ failure() && steps.check.outputs.should_run == 'true' }}
       uses: actions/github-script@v5
       with:
-        github-token: ${{ inputs.TOKEN }}
+        github-token: ${{ inputs.token }}
         script: |
           github.rest.reactions.createForIssueComment({
             owner: context.repo.owner,

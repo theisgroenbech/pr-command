@@ -22,7 +22,7 @@ on:
     types: [created]
 
 jobs:
-  lint-code:
+  usage:
     runs-on: ubuntu-latest
     steps:
       - uses: theisgroenbech/pr-command
@@ -40,3 +40,24 @@ jobs:
           commit-message: ''
 ```
 <!-- end usage -->
+## Example
+```yaml
+name: Lint code
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  lint-code:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: theisgroenbech/pr-command
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pr-comment: '!pr lint'
+          run: |
+            npm ci
+            npm run lint:fix
+          commit-message: Lint code
+```

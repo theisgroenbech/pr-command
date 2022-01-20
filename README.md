@@ -25,7 +25,7 @@ jobs:
   usage:
     runs-on: ubuntu-latest
     steps:
-      - uses: theisgroenbech/pr-command
+      - uses: theisgroenbech/pr-command@v1
         with:
           # Personal access token (PAT) used to fetch the repository.
           # For most use-cases the GITHUB_TOKEN is fine: secrets.GITHUB_TOKEN
@@ -52,7 +52,7 @@ jobs:
   lint-code:
     runs-on: ubuntu-latest
     steps:
-      - uses: theisgroenbech/pr-command
+      - uses: theisgroenbech/pr-command@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           pr-comment: '!pr lint'

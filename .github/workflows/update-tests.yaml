@@ -17,4 +17,4 @@ jobs:
         BASH_COMMAND: |
           echo "hi2" >> hi.txt
           echo "hi3" >> hi.txt
-        COMMIT_MESSAGE: "Pretty cool commit"
+        COMMIT_MESSAGE: Pretty cool commit

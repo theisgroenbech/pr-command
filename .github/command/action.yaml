@@ -1,14 +1,23 @@
-name: PrCommand
+name: Pull Request command
 description: "hi"
 inputs:
   TOKEN:
-    description: "..."
+    description: "Authentication token for GitHub repository"
+    required: true
+  PR_COMMENT:
+    description: "The comment that the bot should react on"
+    required: true
+  BASH_COMMAND:
+    description: "The bash command to be run when the bot is triggered"
+    required: true
+  COMMIT_MESSAGE:
+    description: "The commit message that the bot should use when committing"
     required: true
 runs:
   using: "composite"
   steps:
     - run: |
-        if [[ "${{github.event.issue.pull_request && contains(github.event.comment.body, inputs.PR_COMMAND)}}" == "false" ]]; then
+        if [[ "${{github.event.issue.pull_request && contains(github.event.comment.body, inputs.PR_COMMENT)}}" == "false" ]]; then
           echo ::set-output name=should_run::false
         else
           echo ::set-output name=should_run::true
@@ -16,8 +25,9 @@ runs:
       id: check
       shell: bash
 
-  # Put rocket on the comment to mark that it has started adding screenshots
-    - uses: actions/github-script@v5
+    # Put rocket on the comment to mark that it has started adding screenshots
+    - name: React with Rocket
+      uses: actions/github-script@v5
       if: ${{ steps.check.outputs.should_run == 'true' }}
       with:
         github-token: ${{ inputs.TOKEN }}
@@ -28,8 +38,10 @@ runs:
             comment_id: context.payload.comment.id,
             content: 'rocket'
           });
-#    # https://github.com/actions/checkout/issues/331
-    - uses: actions/github-script@v5
+
+    # https://github.com/actions/checkout/issues/331
+    - name: Find PR
+      uses: actions/github-script@v5
       if: ${{ steps.check.outputs.should_run == 'true' }}
       id: get-pr
       with:
@@ -47,7 +59,9 @@ runs:
           } catch (err) {
             core.setFailed(`Request failed with error ${err}`)
           }
-    - uses: actions/checkout@v2
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
       if: ${{ steps.check.outputs.should_run == 'true' }}
       with:
         # Use the branch name from the PR step
@@ -55,12 +69,12 @@ runs:
         ref: ${{ fromJSON(steps.get-pr.outputs.result).head.ref }}
         token: ${{ inputs.TOKEN }}
 
-    - name: run stuff
+    - name: Run command
       if: ${{ steps.check.outputs.should_run == 'true' }}
       shell: bash
       run: ${{ inputs.BASH_COMMAND }}
 
-    - name: commit
+    - name: Commit changes (if any)
       if: ${{ steps.check.outputs.should_run == 'true' }}
       shell: bash
       run: |
@@ -69,8 +83,10 @@ runs:
         git add .
         git commit -m "${{ inputs.COMMIT_MESSAGE }}" || true
         git push
+
     # Put a hooray on the comment to mark that it has been updated
-    - uses: actions/github-script@v5
+    - name: React with hooray
+      uses: actions/github-script@v5
       if: ${{ steps.check.outputs.should_run == 'true' }}
       with:
         github-token: ${{ inputs.TOKEN }}
@@ -81,7 +97,9 @@ runs:
             comment_id: context.payload.comment.id,
             content: 'hooray'
           });
-    - name: Failure
+
+    # Put a confused on the comment to mark that it has failed
+    - name: 'Failure: React with confused'
       if: ${{ failure() && steps.check.outputs.should_run == 'true' }}
       uses: actions/github-script@v5
       with:

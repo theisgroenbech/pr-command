@@ -58,7 +58,7 @@ runs:
     - name: run stuff
       if: ${{ steps.check.outputs.should_run == 'true' }}
       shell: bash
-      run: exit 1
+      run: ${{ inputs.BASH_COMMAND }}
 
     - name: commit
       if: ${{ steps.check.outputs.should_run == 'true' }}

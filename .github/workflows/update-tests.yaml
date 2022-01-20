@@ -1,4 +1,4 @@
-name: Update visual regression test screenshots
+name: Pretty cool
 
 on:
   issue_comment:
@@ -8,9 +8,7 @@ jobs:
   update_screenshots:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - uses: ./.github/command
+    - uses: theisgroenbech/pr-command
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         pr-comment: "!pr pretty cool"

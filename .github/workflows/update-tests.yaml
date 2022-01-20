@@ -13,6 +13,8 @@ jobs:
     - uses: ./.github/command
       with:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PR_COMMAND: "!pr pretty cool"
-        BASH_COMMAND: echo "hi2" >> hi.txt
+        PR_COMMENT: "!pr pretty cool"
+        BASH_COMMAND: |
+          echo "hi2" >> hi.txt
+          echo "hi3" >> hi.txt
         COMMIT_MESSAGE: "Pretty cool commit"

@@ -14,5 +14,5 @@ jobs:
       with:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PR_COMMAND: "!pr pretty cool"
-        BASH_COMMAND: exit 1
+        BASH_COMMAND: echo "hi2" >> hi.txt
         COMMIT_MESSAGE: "Pretty cool commit"

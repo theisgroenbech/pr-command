@@ -15,14 +15,14 @@ This can be used for anything, but examples include:
 # Usage
 <!-- start usage -->
 ```yaml
-name: Usage
+name: <insert action name>
 
 on:
   issue_comment:
     types: [created]
 
 jobs:
-  usage:
+  <insert action name>:
     runs-on: ubuntu-latest
     steps:
       - uses: theisgroenbech/pr-command@v1

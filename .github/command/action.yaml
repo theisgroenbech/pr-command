@@ -78,9 +78,9 @@ runs:
       run: ${{ inputs.run }}
 
     - name: Write comment
-      if: ${{ steps.check.outputs.should_run == 'true' }}
+      if: ${{ steps.check.outputs.should_run == 'true' && inputs.write-comment }}
       shell: bash
-      run: echo ${{ inputs.write-comment }}
+      run: echo "COMMENT!"
 
     - name: Commit changes (if any)
       if: ${{ steps.check.outputs.should_run == 'true' }}

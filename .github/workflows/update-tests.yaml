@@ -17,5 +17,5 @@ jobs:
         run: |
           echo "hi2" >> hi.txt
           echo "hi3" >> hi.txt
-        write-comment: "Hi there 👋 \n\n You have the following options: \n - `!pr help`"
+#        write-comment: "Hi there 👋 \n\n You have the following options: \n - `!pr help`"
         commit-message: Pretty cool commit

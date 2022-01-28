@@ -78,9 +78,17 @@ runs:
       run: ${{ inputs.run }}
 
     - name: Write comment
+      uses: actions/github-script@v5
       if: ${{ steps.check.outputs.should_run == 'true' && inputs.write-comment }}
-      shell: bash
-      run: echo "COMMENT!"
+      with:
+        github-token: ${{ inputs.TOKEN }}
+        script: |
+          github.rest.issues.createComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.payload.number,
+            body: `${inputs.write-comment}`
+          });
 
     - name: Commit changes (if any)
       if: ${{ steps.check.outputs.should_run == 'true' }}

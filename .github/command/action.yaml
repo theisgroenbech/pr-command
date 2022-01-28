@@ -83,7 +83,7 @@ runs:
       env:
         COMMENT: ${{ inputs.write-comment }}
       with:
-        github-token: ${{ inputs.TOKEN }}
+        github-token: ${{ inputs.token }}
         script: |
           github.rest.issues.createComment({
             owner: context.repo.owner,

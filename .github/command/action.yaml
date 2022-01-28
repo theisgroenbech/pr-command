@@ -9,10 +9,10 @@ inputs:
     required: true
   run:
     description: "Bash command to be run when the bot is triggered"
-    required: true
+    required: false
   commit-message:
     description: "Commit message to be used when committing"
-    required: true
+    required: false
   write-comment:
     description: "Comment that the bot should write on the pull-request"
     required: false
@@ -73,7 +73,7 @@ runs:
         token: ${{ inputs.token }}
 
     - name: Run command
-      if: ${{ steps.check.outputs.should_run == 'true' }}
+      if: ${{ steps.check.outputs.should_run == 'true' && inputs.run }}
       shell: bash
       run: ${{ inputs.run }}
 
@@ -94,7 +94,7 @@ runs:
           });
 
     - name: Commit changes (if any)
-      if: ${{ steps.check.outputs.should_run == 'true' }}
+      if: ${{ steps.check.outputs.should_run == 'true' && inputs.commit-message }}
       shell: bash
       run: |
         git config user.name github-actions

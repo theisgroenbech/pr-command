@@ -14,8 +14,8 @@ jobs:
       with:
         token: ${{ secrets.PAT_TOKEN }}
         pr-comment: "!pr pretty cool"
-        run: |
-          echo "hi2" >> hi.txt
-          echo "hi3" >> hi.txt
+#        run: |
+#          echo "hi2" >> hi.txt
+#          echo "hi3" >> hi.txt
 #        write-comment: "Hi there 👋 \n\n You have the following options: \n - `!pr help`"
-        commit-message: Pretty cool commit
+#        commit-message: Pretty cool commit

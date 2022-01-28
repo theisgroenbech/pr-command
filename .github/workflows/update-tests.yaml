@@ -8,7 +8,7 @@ jobs:
   update_screenshots:
     runs-on: ubuntu-latest
     steps:
-    - uses: theisgroenbech/pr-command@v1
+    - uses: ./github/command
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         pr-comment: "!pr pretty cool"

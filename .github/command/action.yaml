@@ -85,6 +85,7 @@ runs:
       with:
         github-token: ${{ inputs.token }}
         script: |
+          console.log(context.payload)
           github.rest.issues.createComment({
             owner: context.repo.owner,
             repo: context.repo.repo,

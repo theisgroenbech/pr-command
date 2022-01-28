@@ -13,6 +13,9 @@ inputs:
   commit-message:
     description: "Commit message to be used when committing"
     required: true
+  write-comment:
+    description: "Comment that the bot should write on the pull-request"
+    required: false
 runs:
   using: "composite"
   steps:
@@ -73,6 +76,11 @@ runs:
       if: ${{ steps.check.outputs.should_run == 'true' }}
       shell: bash
       run: ${{ inputs.run }}
+
+    - name: Write comment
+      if: ${{ steps.check.outputs.should_run == 'true' }}
+      shell: bash
+      run: echo ${{ inputs.write-comment }}
 
     - name: Commit changes (if any)
       if: ${{ steps.check.outputs.should_run == 'true' }}
